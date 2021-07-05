@@ -12,6 +12,7 @@ export function NumberInput(props) {
             label="Enter First Probability"
             name="email"
             type="number"
+            inputProps={{ min: "0", max: "1", step: "0.1" }}
             autoFocus={props.focused}
             onChange={props.onChange}
             error={props.error}

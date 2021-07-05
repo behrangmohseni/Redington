@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import FunctionsIcon from '@material-ui/icons/Functions';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(2, 0, 2),
     },
 }));
 
@@ -44,11 +44,13 @@ export default function App() {
     const [failedResult, setFailedResult] = useState({errorCode: 0, errorMessage: "", visible: false});
     const [submitButtonEnable, setSubmitButtonEnable] = useState(false);
 
-    async function populateMethods(){
+    async function populateMethods() {
         const result = await getCalculationTypes();
         if (result.successful) {
             setMethods(result.data);
             setSelectedMethod(result.data[0]);
+        } else {
+            setFailedResult({errorCode: result.status, errorMessage: `Could not connect to the server, error: ${result.data}`, visible: true});
         }
     }
     async function onSubmit(event){
@@ -69,7 +71,7 @@ export default function App() {
     }
 
     function enableOrDisableSubmitButton(){
-        const shouldEnable = IsValidNumber(firstInput.value) && IsValidNumber(secondInput.value) && methods && methods.length > 0 && selectedMethod;
+        const shouldEnable = IsValidNumber(firstInput.value) && IsValidNumber(secondInput.value) && methods && methods.length > 0 && selectedMethod && methods[0] !== "methods loading...";
         setSubmitButtonEnable(!!shouldEnable);
     }
 
@@ -93,26 +95,30 @@ export default function App() {
     }, []);
     useEffect(() => {
         enableOrDisableSubmitButton();
-    }, [firstInput, secondInput, methods]);
+    }, [firstInput, secondInput]);
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
+                    <FunctionsIcon/>
                 </Avatar>
-                <Typography component="h1" variant="h5">
-                    Probability Calculator
-                </Typography>
+                <Box mt={4} mb={4}>
+                    <Typography component="h1" variant="h4">
+                        Probability Calculator
+                    </Typography>
+                </Box>
+
                 <form className={classes.form} noValidate>
                     <NumberInput focused={firstInput.focused} value={firstInput.value} error={firstInput.error} onChange={firstInputChanged}/>
                     <NumberInput focused={secondInput.focused} value={secondInput.value} error={secondInput.error} onChange={secondInputChanged}/>
                     <Selector items={methods} selected={selectedMethod} onChange={selectedMethodChanged}/>
                     <Button
                         type="submit"
+                        size="large"
                         fullWidth
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         className={classes.submit}
                         disabled={!submitButtonEnable}
                         onClick={onSubmit}
