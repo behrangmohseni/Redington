@@ -71,7 +71,5 @@ namespace RedingtonMiniCodeProject.Service.Test
         {
             Assert.Equal("CombinedWith", _combineWithCalculationService.Name);
         }
-
-
     }
 }

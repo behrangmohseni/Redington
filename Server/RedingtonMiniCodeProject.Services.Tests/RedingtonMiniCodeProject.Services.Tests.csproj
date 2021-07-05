@@ -20,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RedingtonMiniCodeProject.Service\RedingtonMiniCodeProject.Services.csproj" />
+    <ProjectReference Include="..\RedingtonMiniCodeProject.Services.Abstraction\RedingtonMiniCodeProject.Services.Abstraction.csproj" />
+    <ProjectReference Include="..\RedingtonMiniCodeProject.Services.Models\RedingtonMiniCodeProject.Services.Models.csproj" />
+    <ProjectReference Include="..\RedingtonMiniCodeProject.Services\RedingtonMiniCodeProject.Services.csproj" />
   </ItemGroup>
 
 </Project>
